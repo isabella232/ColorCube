@@ -22,7 +22,7 @@
 #import <Foundation/Foundation.h>
 
 // Flags that determine how the colors are extract
-typedef enum CCFlags: NSUInteger
+typedef NS_OPTIONS(NSUInteger, CCFlags)
 {
     // This ignores all pixels that are darker than a threshold
     CCOnlyBrightColors   = 1 << 0,
@@ -47,7 +47,7 @@ typedef enum CCFlags: NSUInteger
     // Removes colors from the result if they are too close to black
     CCAvoidBlack         = 1 << 6
     
-} CCFlags;
+};
 
 // The color cube is made out of these cells
 typedef struct CCCubeCell {
@@ -73,11 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CCColorCube : NSObject
 
 // Extracts and returns dominant colors of the image (the array contains UIColor objects). Result might be empty.
-- (NSArray<UIColor *> *)extractColorsFromImage:(UIImage *)image flags:(NSUInteger)flags;
+- (NSArray<UIColor *> *)extractColorsFromImage:(UIImage *)image flags:(CCFlags)flags;
 
 // Same as above but avoids colors too close to the specified one.
 // IMPORTANT: The avoidColor must be in RGB, so create it with colorWithRed method of UIColor!
-- (NSArray<UIColor *> *)extractColorsFromImage:(UIImage *)image flags:(NSUInteger)flags avoidColor:(UIColor*)avoidColor;
+- (NSArray<UIColor *> *)extractColorsFromImage:(UIImage *)image flags:(CCFlags)flags avoidColor:(UIColor*)avoidColor;
 
 // Tries to get count bright colors from the image, avoiding the specified one (only if avoidColor is non-nil).
 // IMPORTANT: The avoidColor (if set) must be in RGB, so create it with colorWithRed method of UIColor!
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Tries to get count colors from the image
 // Might return less than count colors!
-- (NSArray<UIColor *> *)extractColorsFromImage:(UIImage *)image flags:(NSUInteger)flags count:(NSUInteger)count;
+- (NSArray<UIColor *> *)extractColorsFromImage:(UIImage *)image flags:(CCFlags)flags count:(NSUInteger)count;
 
 @end
 
